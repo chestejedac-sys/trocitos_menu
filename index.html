@@ -456,6 +456,49 @@ main{
 .no-orders{text-align:center;padding:30px;color:var(--T2);}
 .no-orders div{font-size:44px;margin-bottom:10px;}
 
+/* Admin tabs */
+.admin-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.admin-tab{
+  flex:1;padding:9px 8px;font-size:12.5px;font-weight:800;
+  border-radius:12px;cursor:pointer;border:1.5px solid rgba(181,0,91,.2);
+  background:rgba(255,255,255,.5);color:var(--T2);font-family:var(--font);
+  transition:all .2s;min-width:80px;
+}
+.admin-tab.active{
+  background:linear-gradient(135deg,var(--P1),var(--P2));
+  color:#fff;border-color:transparent;
+  box-shadow:0 4px 14px rgba(181,0,91,.3);
+}
+.admin-pane{animation:fadein .2s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* Product edit rows */
+.prod-edit-row{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border-radius:13px;margin-bottom:8px;
+  background:rgba(255,255,255,.55);border:1px solid rgba(181,0,91,.12);
+}
+.prod-edit-emoji{font-size:22px;flex-shrink:0;}
+.prod-edit-name{flex:1;font-size:13px;font-weight:700;color:var(--T1);}
+.prod-edit-price-wrap{display:flex;align-items:center;gap:5px;}
+.prod-edit-price{
+  width:72px;padding:7px 10px;border-radius:10px;
+  border:1.5px solid rgba(181,0,91,.25);
+  background:rgba(255,255,255,.8);font-family:var(--font);
+  font-size:14px;font-weight:800;color:var(--P1);text-align:center;
+  outline:none;
+}
+.prod-edit-del{
+  background:rgba(200,0,0,.1);border:none;border-radius:8px;
+  padding:7px 9px;font-size:14px;cursor:pointer;color:#c00;
+  transition:background .15s;
+}
+.prod-edit-del:active{background:rgba(200,0,0,.22);}
+.prod-save-badge{
+  font-size:11px;font-weight:700;color:#07a;
+  display:none;margin-left:4px;
+}
+
 /* ═══════════════════════════════════════════
    TOAST
 ═══════════════════════════════════════════ */
@@ -1001,8 +1044,8 @@ main{
 </div>
 
 <!-- ═══ ADMIN MODAL ═══ -->
-<div class="modal-wrap" id="admin-modal" style="align-items:flex-start;padding-top:50px;">
-  <div class="modal-box glass" style="max-width:460px;max-height:88vh;overflow-y:auto;padding-bottom:30px;">
+<div class="modal-wrap" id="admin-modal" style="align-items:flex-start;padding-top:40px;">
+  <div class="modal-box glass" style="max-width:480px;max-height:90vh;overflow-y:auto;padding-bottom:30px;">
 
     <!-- PIN view -->
     <div id="admin-pin-view" class="pin-wrap">
@@ -1018,26 +1061,95 @@ main{
 
     <!-- Panel view -->
     <div id="admin-panel-view" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:14px;border-radius:16px;" class="glass">
-        <div class="sec-icon">👑</div>
-        <div>
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="sec-icon">👑</div>
           <div class="admin-title">Panel Trocitos</div>
-          <div style="font-size:12px;color:var(--T2)">Pedidos recibidos hoy</div>
+        </div>
+        <button class="glass-btn" style="padding:6px 14px;font-size:13px;" onclick="closeAdmin()">✕ Cerrar</button>
+      </div>
+
+      <!-- Admin Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="atab-pedidos" onclick="adminTab('pedidos')">📋 Pedidos</button>
+        <button class="admin-tab" id="atab-productos" onclick="adminTab('productos')">🍩 Productos</button>
+        <button class="admin-tab" id="atab-config" onclick="adminTab('config')">⚙️ Config</button>
+      </div>
+
+      <!-- ── PEDIDOS ── -->
+      <div id="apane-pedidos" class="admin-pane">
+        <div id="orders-list"></div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="glass-btn danger" style="padding:10px 16px;font-size:13px;flex:1" onclick="clearOrders()">
+            🗑 Limpiar Pedidos
+          </button>
         </div>
       </div>
 
-      <div id="orders-list"></div>
+      <!-- ── PRODUCTOS ── -->
+      <div id="apane-productos" class="admin-pane" style="display:none">
+        <div style="font-size:12px;color:var(--T2);margin-bottom:14px;line-height:1.6;">
+          Edita precios o agrega productos. Los cambios se guardan en tu teléfono y se sincronizan al repositorio GitHub si tienes el token configurado.
+        </div>
 
-      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="glass-btn danger" style="padding:10px 18px;font-size:13px;flex:1" onclick="clearOrders()">
-          🗑 Limpiar Pedidos
+        <!-- Lista de productos actuales -->
+        <div id="prod-edit-list"></div>
+
+        <hr style="border:none;border-top:1px solid rgba(181,0,91,.15);margin:18px 0;">
+
+        <!-- Agregar producto nuevo -->
+        <div style="font-size:13px;font-weight:800;color:var(--P1);margin-bottom:12px;">➕ Agregar Producto</div>
+        <div class="form-field">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" type="text" id="new-prod-name" placeholder="Ej: Charola 20 Minidonas">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Precio ($)</label>
+          <input class="form-input" type="number" id="new-prod-price" placeholder="Ej: 1100">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Emoji</label>
+          <input class="form-input" type="text" id="new-prod-emoji" placeholder="🍩" style="max-width:80px;">
+        </div>
+        <button class="glass-btn primary" style="width:100%;padding:12px;font-size:14px;" onclick="addNewProduct()">
+          ➕ Agregar al Catálogo
         </button>
-        <button class="glass-btn" style="padding:10px 18px;font-size:13px;flex:1" onclick="closeAdmin()">
-          Cerrar
-        </button>
+
+        <hr style="border:none;border-top:1px solid rgba(181,0,91,.15);margin:18px 0;">
+
+        <!-- Precios de coberturas -->
+        <div style="font-size:13px;font-weight:800;color:var(--P1);margin-bottom:12px;">🍫 Precios de Coberturas ($ por dona)</div>
+        <div id="cob-edit-list"></div>
+
+        <div style="margin-top:16px;">
+          <button class="glass-btn primary" style="width:100%;padding:12px;font-size:14px;" onclick="saveAllChanges()">
+            💾 Guardar Todos los Cambios
+          </button>
+        </div>
       </div>
-    </div>
 
+      <!-- ── CONFIG ── -->
+      <div id="apane-config" class="admin-pane" style="display:none">
+        <div class="form-field">
+          <label class="form-label">🔑 Token de GitHub</label>
+          <input class="form-input" type="password" id="cfg-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <button class="glass-btn primary" style="width:100%;padding:12px;font-size:14px;" onclick="saveGHConfig()">
+          💾 Guardar Token
+        </button>
+        <div style="margin-top:16px;background:rgba(181,0,91,.07);border-radius:14px;padding:14px;font-size:12px;color:var(--T2);line-height:1.8;">
+          <strong style="color:var(--P1);">Cómo obtener el Token:</strong><br>
+          1. Ve a github.com → tu foto → Settings<br>
+          2. Baja hasta <em>Developer settings</em><br>
+          3. <em>Personal access tokens → Tokens (classic)</em><br>
+          4. <em>Generate new token</em> → marca <strong>repo</strong><br>
+          5. Cópialo aquí y guarda ✓
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -1360,12 +1472,23 @@ function checkPin() {
   if (document.getElementById('admin-pin').value === ADMIN_PASS) {
     document.getElementById('admin-pin-view').style.display = 'none';
     document.getElementById('admin-panel-view').style.display = 'block';
-    renderOrders();
+    loadGHConfig();
+    adminTab('pedidos');
   } else {
     document.getElementById('pin-err').style.display = 'block';
     document.getElementById('admin-pin').value = '';
   }
 }
+
+function adminTab(name) {
+  ['pedidos','productos','config'].forEach(t => {
+    document.getElementById('apane-' + t).style.display = t === name ? 'block' : 'none';
+    document.getElementById('atab-' + t).classList.toggle('active', t === name);
+  });
+  if (name === 'pedidos') renderOrders();
+  if (name === 'productos') renderProductEditor();
+}
+
 function renderOrders() {
   const el = document.getElementById('orders-list');
   orders = JSON.parse(localStorage.getItem('trocitos_orders')||'[]');
@@ -1390,6 +1513,162 @@ function clearOrders() {
     renderOrders();
   }
 }
+
+/* ── PRODUCT EDITOR ── */
+function renderProductEditor() {
+  // Products list
+  const pl = document.getElementById('prod-edit-list');
+  pl.innerHTML = Object.entries(CATALOG).map(([key, p]) => `
+    <div class="prod-edit-row" id="perow-${key}">
+      <div class="prod-edit-emoji">${p.emoji}</div>
+      <div class="prod-edit-name">${p.name}</div>
+      <div class="prod-edit-price-wrap">
+        <input class="prod-edit-price" type="number" id="peprice-${key}" value="${p.price}" min="0">
+        <span>$</span>
+      </div>
+      <button class="prod-edit-del" onclick="deleteProduct('${key}')" title="Eliminar">🗑</button>
+    </div>
+  `).join('');
+
+  // Coberturas list
+  const cl = document.getElementById('cob-edit-list');
+  cl.innerHTML = Object.entries(COBERTURAS).map(([key, c]) => `
+    <div class="prod-edit-row">
+      <div class="prod-edit-emoji">🍫</div>
+      <div class="prod-edit-name">${c.name}</div>
+      <div class="prod-edit-price-wrap">
+        <input class="prod-edit-price" type="number" id="cobprice-${key}" value="${c.price}" min="0">
+        <span>$ / dona</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addNewProduct() {
+  const name  = document.getElementById('new-prod-name').value.trim();
+  const price = parseInt(document.getElementById('new-prod-price').value);
+  const emoji = document.getElementById('new-prod-emoji').value.trim() || '🍩';
+  if (!name || !price) { toast('⚠️ Completa nombre y precio'); return; }
+  // Generate a key from the name
+  const key = 'custom_' + Date.now();
+  CATALOG[key] = { name, price, emoji };
+  document.getElementById('new-prod-name').value = '';
+  document.getElementById('new-prod-price').value = '';
+  document.getElementById('new-prod-emoji').value = '';
+  renderProductEditor();
+  toast('✅ Producto agregado — recuerda guardar cambios');
+}
+
+function deleteProduct(key) {
+  if (!confirm('¿Eliminar "' + CATALOG[key].name + '"?')) return;
+  delete CATALOG[key];
+  renderProductEditor();
+  toast('🗑 Eliminado — recuerda guardar cambios');
+}
+
+function saveAllChanges() {
+  // Read new prices from inputs
+  Object.keys(CATALOG).forEach(key => {
+    const el = document.getElementById('peprice-' + key);
+    if (el) CATALOG[key].price = parseInt(el.value) || CATALOG[key].price;
+  });
+  Object.keys(COBERTURAS).forEach(key => {
+    const el = document.getElementById('cobprice-' + key);
+    if (el) COBERTURAS[key].price = parseInt(el.value) || COBERTURAS[key].price;
+  });
+
+  // Save to localStorage
+  localStorage.setItem('trocitos_catalog', JSON.stringify(CATALOG));
+  localStorage.setItem('trocitos_coberturas', JSON.stringify(COBERTURAS));
+
+  toast('💾 Guardado localmente');
+
+  // Try to sync to GitHub
+  syncToGitHub();
+}
+
+/* ── GITHUB SYNC ── */
+var GH_TOKEN = '';
+
+// Auto-detect user and repo from GitHub Pages URL
+// e.g. username.github.io/reponame  →  user=username, repo=reponame
+function detectGHRepo() {
+  var host = window.location.hostname; // e.g. "username.github.io"
+  var path = window.location.pathname; // e.g. "/reponame/"
+  var user = host.replace('.github.io', '');
+  var repo = path.split('/').filter(Boolean)[0] || '';
+  // If running locally (not GitHub Pages), return empty
+  if (!host.includes('github.io')) return { user: '', repo: '' };
+  return { user: user, repo: repo };
+}
+
+function loadGHConfig() {
+  GH_TOKEN = localStorage.getItem('gh_token') || '';
+  document.getElementById('cfg-gh-token').value = GH_TOKEN;
+}
+
+function saveGHConfig() {
+  GH_TOKEN = document.getElementById('cfg-gh-token').value.trim();
+  localStorage.setItem('gh_token', GH_TOKEN);
+  toast('✅ Token guardado');
+}
+
+async function syncToGitHub() {
+  if (!GH_TOKEN) {
+    toast('ℹ️ Sin token — cambios guardados solo localmente');
+    return;
+  }
+
+  var det = detectGHRepo();
+  if (!det.user || !det.repo) {
+    toast('ℹ️ GitHub Pages no detectado — solo guardado local');
+    return;
+  }
+
+  var data = { catalog: CATALOG, coberturas: COBERTURAS };
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  var apiUrl = 'https://api.github.com/repos/' + det.user + '/' + det.repo + '/contents/products.json';
+
+  try {
+    // Get current SHA (needed for update)
+    var sha = '';
+    var getRes = await fetch(apiUrl, {
+      headers: { Authorization: 'token ' + GH_TOKEN, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (getRes.ok) { var d = await getRes.json(); sha = d.sha; }
+
+    // PUT new content
+    var body = { message: 'Actualizar productos via admin panel', content: content };
+    if (sha) body.sha = sha;
+
+    var putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: 'token ' + GH_TOKEN,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (putRes.ok) {
+      toast('✅ Sincronizado con GitHub exitosamente');
+    } else {
+      var err = await putRes.json();
+      toast('⚠️ GitHub: ' + (err.message || putRes.status));
+    }
+  } catch(e) {
+    toast('⚠️ Sin conexión — cambios guardados localmente');
+  }
+}
+
+// Load catalog from localStorage on startup (if previously saved)
+(function loadSavedCatalog() {
+  const saved = localStorage.getItem('trocitos_catalog');
+  const savedCob = localStorage.getItem('trocitos_coberturas');
+  if (saved) { try { Object.assign(CATALOG, JSON.parse(saved)); } catch(e){} }
+  if (savedCob) { try { Object.assign(COBERTURAS, JSON.parse(savedCob)); } catch(e){} }
+})();
 
 /* ── ACCESO ADMIN SECRETO (toca el logo 5 veces) ── */
 let adminTapCount = 0;
