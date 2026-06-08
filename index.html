@@ -609,7 +609,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Charola 12 Minidonas</div>
-            <div class="card-price">770$</div>
+            <div class="card-price" id="price-sin12">770$</div>
           </div>
           <div class="card-desc">12 deliciosas minidonas artesanales sin cobertura. Perfectas para compartir con familia o amigos.</div>
           <div class="qty-row">
@@ -632,7 +632,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Charola 15 Minidonas</div>
-            <div class="card-price">900$</div>
+            <div class="card-price" id="price-sin15">900$</div>
           </div>
           <div class="card-desc">15 deliciosas minidonas artesanales sin cobertura. Ideal para reuniones y celebraciones.</div>
           <div class="qty-row">
@@ -690,7 +690,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🥛</span>
-                <div><div class="cob-row-name">Leche Condensada</div><div class="cob-row-price">3$ × dona</div></div>
+                <div><div class="cob-row-name">Leche Condensada</div><div class="cob-row-price" id="cobprice-lc-label-con12">3$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con12','lc',-1)">−</button>
@@ -701,7 +701,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🍮</span>
-                <div><div class="cob-row-name">Dulce de Leche</div><div class="cob-row-price">7$ × dona</div></div>
+                <div><div class="cob-row-name">Dulce de Leche</div><div class="cob-row-price" id="cobprice-dl-label-con12">7$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con12','dl',-1)">−</button>
@@ -712,7 +712,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🍫</span>
-                <div><div class="cob-row-name">Chocolate</div><div class="cob-row-price">10$ × dona</div></div>
+                <div><div class="cob-row-name">Chocolate</div><div class="cob-row-price" id="cobprice-ch-label-con12">10$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con12','ch',-1)">−</button>
@@ -723,7 +723,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🤍</span>
-                <div><div class="cob-row-name">Chocolate Blanco</div><div class="cob-row-price">15$ × dona</div></div>
+                <div><div class="cob-row-name">Chocolate Blanco</div><div class="cob-row-price" id="cobprice-cb-label-con12">15$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con12','cb',-1)">−</button>
@@ -734,7 +734,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🌰</span>
-                <div><div class="cob-row-name">Nutella</div><div class="cob-row-price">20$ × dona</div></div>
+                <div><div class="cob-row-name">Nutella</div><div class="cob-row-price" id="cobprice-nt-label-con12">20$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con12','nt',-1)">−</button>
@@ -779,7 +779,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🥛</span>
-                <div><div class="cob-row-name">Leche Condensada</div><div class="cob-row-price">3$ × dona</div></div>
+                <div><div class="cob-row-name">Leche Condensada</div><div class="cob-row-price" id="cobprice-lc-label-con15">3$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con15','lc',-1)">−</button>
@@ -790,7 +790,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🍮</span>
-                <div><div class="cob-row-name">Dulce de Leche</div><div class="cob-row-price">7$ × dona</div></div>
+                <div><div class="cob-row-name">Dulce de Leche</div><div class="cob-row-price" id="cobprice-dl-label-con15">7$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con15','dl',-1)">−</button>
@@ -801,7 +801,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🍫</span>
-                <div><div class="cob-row-name">Chocolate</div><div class="cob-row-price">10$ × dona</div></div>
+                <div><div class="cob-row-name">Chocolate</div><div class="cob-row-price" id="cobprice-ch-label-con15">10$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con15','ch',-1)">−</button>
@@ -812,7 +812,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🤍</span>
-                <div><div class="cob-row-name">Chocolate Blanco</div><div class="cob-row-price">15$ × dona</div></div>
+                <div><div class="cob-row-name">Chocolate Blanco</div><div class="cob-row-price" id="cobprice-cb-label-con15">15$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con15','cb',-1)">−</button>
@@ -823,7 +823,7 @@ main{
             <div class="cob-row">
               <div class="cob-row-info">
                 <span class="cob-row-emoji">🌰</span>
-                <div><div class="cob-row-name">Nutella</div><div class="cob-row-price">20$ × dona</div></div>
+                <div><div class="cob-row-name">Nutella</div><div class="cob-row-price" id="cobprice-nt-label-con15">20$ × dona</div></div>
               </div>
               <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeCob('con15','nt',-1)">−</button>
@@ -861,7 +861,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Salsera Dulce de Leche</div>
-            <div class="card-price">100$</div>
+            <div class="card-price" id="price-sal-dl">100$</div>
           </div>
           <div class="card-desc">Dulce de leche cremoso para acompañar tus minidonas.</div>
           <div class="qty-row">
@@ -880,7 +880,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Salsera Leche Condensada</div>
-            <div class="card-price">90$</div>
+            <div class="card-price" id="price-sal-lc">90$</div>
           </div>
           <div class="card-desc">Suave y dulce leche condensada para un toque especial.</div>
           <div class="qty-row">
@@ -899,7 +899,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Salsera Nutella</div>
-            <div class="card-price">150$</div>
+            <div class="card-price" id="price-sal-nt">150$</div>
           </div>
           <div class="card-desc">Cremosa Nutella para los amantes del chocolate y avellanas.</div>
           <div class="qty-row">
@@ -934,7 +934,7 @@ main{
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Caja Trocitos Premium</div>
-            <div class="card-price">1800$</div>
+            <div class="card-price" id="price-caja">1800$</div>
           </div>
           <div class="card-desc">Caja surtida premium con nuestras mejores minidonas. Incluye variedad de coberturas y toppings. El regalo ideal para cumpleaños, aniversarios o simplemente para consentirte. 🎀</div>
           <div class="qty-row">
@@ -1224,7 +1224,7 @@ function getCobTotal(prod) {
 }
 function getCobPrice(prod) {
   const s = cobState[prod];
-  return s.lc*3 + s.dl*7 + s.ch*10 + s.cb*15 + s.nt*20;
+  return s.lc*COBERTURAS.lc.price + s.dl*COBERTURAS.dl.price + s.ch*COBERTURAS.ch.price + s.cb*COBERTURAS.cb.price + s.nt*COBERTURAS.nt.price;
 }
 
 function changeCob(prod, cob, delta) {
@@ -1577,14 +1577,56 @@ function saveAllChanges() {
     if (el) COBERTURAS[key].price = parseInt(el.value) || COBERTURAS[key].price;
   });
 
+  // Update BASE_CON from CATALOG
+  BASE_CON['con12'] = CATALOG['sin12'] ? CATALOG['sin12'].price : BASE_CON['con12'];
+  BASE_CON['con15'] = CATALOG['sin15'] ? CATALOG['sin15'].price : BASE_CON['con15'];
+
   // Save to localStorage
   localStorage.setItem('trocitos_catalog', JSON.stringify(CATALOG));
   localStorage.setItem('trocitos_coberturas', JSON.stringify(COBERTURAS));
 
-  toast('💾 Guardado localmente');
+  // Refresh all price displays on the menu immediately
+  refreshPriceUI();
 
-  // Try to sync to GitHub
+  toast('💾 Guardado — precios actualizados en el menú ✅');
+
+  // Try to sync to GitHub so prices persist after page refresh
   syncToGitHub();
+}
+
+/* ── REFRESH ALL PRICES IN THE UI ── */
+function refreshPriceUI() {
+  // Simple product cards
+  const priceMap = {
+    'sin12':  'price-sin12',
+    'sin15':  'price-sin15',
+    'sal-dl': 'price-sal-dl',
+    'sal-lc': 'price-sal-lc',
+    'sal-nt': 'price-sal-nt',
+    'caja':   'price-caja',
+  };
+  Object.entries(priceMap).forEach(([key, elId]) => {
+    const el = document.getElementById(elId);
+    if (el && CATALOG[key]) el.textContent = CATALOG[key].price + '$';
+  });
+
+  // Con-cobertura base prices
+  const c12 = document.getElementById('price-con12');
+  const c15 = document.getElementById('price-con15');
+  if (c12) c12.textContent = BASE_CON['con12'] + '$';
+  if (c15) c15.textContent = BASE_CON['con15'] + '$';
+
+  // Cobertura row price labels (both charolas)
+  const cobKeys = ['lc','dl','ch','cb','nt'];
+  ['con12','con15'].forEach(prod => {
+    cobKeys.forEach(k => {
+      const el = document.getElementById(`cobprice-${k}-label-${prod}`);
+      if (el && COBERTURAS[k]) el.textContent = COBERTURAS[k].price + '$ × dona';
+    });
+  });
+
+  // Recalculate displayed total if user already assigned donas
+  ['con12','con15'].forEach(prod => updateCobUI(prod));
 }
 
 /* ── GITHUB SYNC ── */
@@ -1662,12 +1704,36 @@ async function syncToGitHub() {
   }
 }
 
-// Load catalog from localStorage on startup (if previously saved)
-(function loadSavedCatalog() {
-  const saved = localStorage.getItem('trocitos_catalog');
-  const savedCob = localStorage.getItem('trocitos_coberturas');
-  if (saved) { try { Object.assign(CATALOG, JSON.parse(saved)); } catch(e){} }
-  if (savedCob) { try { Object.assign(COBERTURAS, JSON.parse(savedCob)); } catch(e){} }
+// Load catalog: first try products.json from GitHub Pages, fallback to localStorage
+(async function loadSavedCatalog() {
+  let loaded = false;
+
+  // 1️⃣ Try fetching products.json from the same site (works on GitHub Pages)
+  try {
+    const res = await fetch('products.json?_=' + Date.now()); // cache-bust
+    if (res.ok) {
+      const data = await res.json();
+      if (data.catalog)    Object.assign(CATALOG,    data.catalog);
+      if (data.coberturas) Object.assign(COBERTURAS, data.coberturas);
+      // Keep localStorage in sync
+      localStorage.setItem('trocitos_catalog',    JSON.stringify(CATALOG));
+      localStorage.setItem('trocitos_coberturas', JSON.stringify(COBERTURAS));
+      loaded = true;
+    }
+  } catch(e) { /* not on GitHub Pages or fetch failed */ }
+
+  // 2️⃣ Fallback: localStorage (works offline / local dev)
+  if (!loaded) {
+    const saved    = localStorage.getItem('trocitos_catalog');
+    const savedCob = localStorage.getItem('trocitos_coberturas');
+    if (saved)    { try { Object.assign(CATALOG,    JSON.parse(saved));    } catch(e){} }
+    if (savedCob) { try { Object.assign(COBERTURAS, JSON.parse(savedCob)); } catch(e){} }
+  }
+
+  // Sync BASE_CON and refresh all prices in the UI
+  BASE_CON['con12'] = CATALOG['sin12'] ? CATALOG['sin12'].price : BASE_CON['con12'];
+  BASE_CON['con15'] = CATALOG['sin15'] ? CATALOG['sin15'].price : BASE_CON['con15'];
+  refreshPriceUI();
 })();
 
 /* ── ACCESO ADMIN SECRETO (toca el logo 5 veces) ── */
